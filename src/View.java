@@ -51,14 +51,16 @@ public class View {
         author.setName(scanner.nextLine());
         book.setAuthor(author.getName());
 
-        System.out.print("year  published: ");
+        System.out.print("year published: ");
         book.setYear(Integer.valueOf(scanner.nextLine()));
 
-        System.out.print("Category:  ");
+        System.out.print("Category: ");
         book.setCategory(scanner.nextLine());
 
+        System.out.print("Subcategory (press enter if no subcategory): ");
+        book.setSubCategory(scanner.nextLine());
 
-        System.out.print("Edtion:  ");
+        System.out.print("Edition: ");
         book.setEdition(Integer.valueOf(scanner.nextLine()));
 
     }
@@ -74,7 +76,17 @@ public class View {
         return tempBook;
     }
 
-
+    public Book getTitleAuthorEdition() {
+        Book tempBook = new Book();
+        scanner = new Scanner(System.in);
+        System.out.print("Title of the Book: ");
+        tempBook.setTitle(scanner.nextLine());
+        System.out.print("Name of the Author: ");
+        tempBook.setAuthor(scanner.nextLine());
+        System.out.print("Edition (enter -1 to get all): ");
+        tempBook.setEdition(scanner.nextInt());
+        return tempBook;
+    }
 }
 
 

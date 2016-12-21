@@ -74,24 +74,36 @@ public class DatabaseHelper {
     }
 
     public void listAllBooks() {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book");
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book");
 
         try {
             while(rs.next()) {
-                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-            }
+                if(rs.getString(6) != "null") {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                }
+                else {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+                }            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Search book title that contains input String
+     * @param title String to search for
+     */
     public void searchBookByTitle(String title) {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book WHERE title LIKE '%"+title+"%'");
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE title LIKE '%"+title+"%'");
 
         try {
             while(rs.next()) {
-                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-            }
+                if(rs.getString(6) != "null") {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                }
+                else {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+                }            }
             System.out.println();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -112,18 +124,28 @@ public class DatabaseHelper {
     }
     public void deleteSpacificBook(String title, String author, int edition) {
 
-        ResultSet rs = getResultSet("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' And edition='"+edition+"' " );
-
-        System.out.println("the book "+title+ " was deleted");
+        executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' And edition='"+edition+"' " );
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println("commit failed");
+            e.printStackTrace();
+        }
+        System.out.println("All editions of the book "+title+ " where deleted");
 
     }
 
     public void getAllBooksHaveEditions() {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book WHERE edition > '1'");
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE edition > '1'");
 
         try {
             while(rs.next()) {
-                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+                if(rs.getString(6) != "null") {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                }
+                else {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+                }
             }
             System.out.println();
         } catch (SQLException e) {

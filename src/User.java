@@ -62,8 +62,14 @@ public class User {
     }
 
     private void deleteBook() {
-        Book tempBook = view.getTitleAndAuthor();
-        db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
+        Book tempBook = view.getTitleAuthorEdition();
+        if(tempBook.getEdition() == -1) {
+            db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
+        }
+        else {
+            db.deleteSpacificBook(tempBook.getTitle(), tempBook.getAuthor(), tempBook.getEdition());
+        }
+
     }
 
     private void addbook() {
