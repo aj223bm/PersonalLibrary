@@ -27,27 +27,32 @@ public class View {
         return scanner.nextInt();
     }
 
+
     public void getBookInformation(Book book, Author author) {
         scanner = new Scanner(System.in);
-        String input = " ";
-        System.out.println(" Title of the Books ");
-        while (scanner.hasNext()) {
-            input = scanner.nextLine();
-            book.setTitle(input);
-            if (scanner.next().equals('\n')) {
-                System.out.println("Name of the author");
-                input = scanner.nextLine();
-                author.setName(input);
-                book.setAuthor(author.getName());
-            }
+        System.out.print("Title of the Book: ");
+        book.setTitle(scanner.nextLine());
 
-        }
-        scanner.close();
+        System.out.print("Name of the author: ");
+        author.setName(scanner.nextLine());
+        book.setAuthor(author.getName());
+
+        System.out.print("year  published: ");
+        book.setYear(Integer.valueOf(scanner.nextLine()));
+
+        System.out.print("Category:  ");
+        book.setCategory(scanner.nextLine());
+
+
+        System.out.print("Edtion:  ");
+        book.setEdition(Integer.valueOf(scanner.nextLine()));
+
+    }
 
     }
 
 
-}
+
 
 
 
