@@ -65,6 +65,14 @@ public class DatabaseHelper {
         return rs;
     }
 
+    public void executeQuery(String SQLStatement) {
+        try {
+            statement.execute(SQLStatement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void listAllBooks() {
         ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book");
 
@@ -93,9 +101,8 @@ public class DatabaseHelper {
 
     public void deleteBook(String title, String author) {
 
-        ResultSet rs = getResultSet("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
-
-        System.out.println("the book "+title+ " was deleted");
+        executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
+        System.out.println("The book "+title+ " by "+author+" was deleted");
 
     }
 

@@ -30,6 +30,9 @@ public class User {
           else if(choice == 2) {
               db.listAllBooks();
           }
+          else if(choice == 3) {
+              db.deleteBook("Harry Potter", "J.K Rowling");
+          }
       }
     }
 

@@ -20,6 +20,7 @@ public class View {
 
         System.out.println("1. Add new book ");
         System.out.println("2. List all books");
+        System.out.println("3. Remove book");
 
     }
 
