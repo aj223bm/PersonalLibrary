@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -87,6 +89,22 @@ public class View {
         System.out.print("Edition (enter -1 to get all): ");
         tempBook.setEdition(scanner.nextInt());
         return tempBook;
+    }
+
+    public void printBooks(ResultSet rs) {
+        try {
+            while(rs.next()) {
+                if(rs.getString(6).contains("null")) {
+                    System.out.println("Title: " + rs.getString(1) + "\tAuthor: " + rs.getString(2) + "\tEdition: " + rs.getString(3) + "\tYear: " + rs.getString(4) + "\tCategory: " + rs.getString(5));
+                }
+                else {
+                    System.out.println("Title: " + rs.getString(1) + "\tAuthor: " + rs.getString(2) + "\tEdition: " + rs.getString(3) + "\tYear: " + rs.getString(4) + "\tCategory: " + rs.getString(5) + "/" + rs.getString(6));
+                }
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

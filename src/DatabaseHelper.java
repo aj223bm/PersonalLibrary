@@ -73,45 +73,6 @@ public class DatabaseHelper {
         }
     }
 
-    public void listAllBooks() {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book");
-
-        try {
-            while(rs.next()) {
-                if(rs.getString(6).contains("null")) {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-                }
-                else {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Search book title that contains input String
-     * @param title String to search for
-     */
-    public void searchBookByTitle(String title) {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE title LIKE '%"+title+"%'");
-
-        try {
-            while(rs.next()) {
-                if(rs.getString(6).contains("null")) {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-                }
-                else {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
-                }
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void deleteBook(String title, String author) {
 
@@ -124,7 +85,7 @@ public class DatabaseHelper {
         }
         System.out.println("\nThe book "+title+ " by "+author+" was deleted");
     }
-    public void deleteSpacificBook(String title, String author, int edition) {
+    public void deleteSpecificBook(String title, String author, int edition) {
 
         executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' And edition='"+edition+"' " );
         try {
@@ -133,43 +94,23 @@ public class DatabaseHelper {
             System.out.println("commit failed");
             e.printStackTrace();
         }
-        System.out.println("All editions of the book "+title+ " where deleted");
+        System.out.println("All editions of the book "+title+ " were deleted");
 
     }
 
-    public void getAllBooksHaveEditions() {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE edition > '1'");
-
-        try {
-            while(rs.next()) {
-                if(rs.getString(6).contains("null")) {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-                }
-                else {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
-                }
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public ResultSet getAllBooks() {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book");
     }
 
-    public void searchBooksByAuthor(String author) {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE author LIKE '%"+author+"%'");
+    public ResultSet getBooksByTitle(String title) {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE title LIKE '%"+title+"%'");
+    }
 
-        try {
-            while(rs.next()) {
-                if(rs.getString(6).contains("null")) {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-                }
-                else {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
-                }
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public ResultSet getBooksByAuthor(String author) {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE author LIKE '%"+author+"%'");
+    }
+
+    public ResultSet getAllBooksWithEditionLargerThanOne() {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE edition > '1'");
     }
 }
