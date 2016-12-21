@@ -46,8 +46,17 @@ public class User {
     }
 
     private void deleteBook() {
+
         Book tempBook = view.getTitleAndAuthor();
+        if(db.bookExists(tempBook.getTitle())){
         db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
+            System.out.println("The Book " + tempBook+  " is deleted ");
+        }else{
+            System.out.println("The book you choose  dose not exsit in your library ");
+            return;
+        }
+
+
     }
 
     private void addbook() {

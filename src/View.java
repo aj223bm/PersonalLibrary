@@ -23,11 +23,13 @@ public class View {
         System.out.println("3. Remove book");
         System.out.println("4. Search book by title");
 
+
     }
 
     public int getInput() {
         scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        int choice = scanner.nextInt();
+        return choice;
     }
 
     public String getString() {

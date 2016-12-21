@@ -40,9 +40,9 @@ public class DatabaseHelper {
     public void addBook(Book book, Author author) {
         try {
             psBookTable = connection.prepareStatement("INSERT OR IGNORE INTO Book(title, edition, year, category, subcategory, author) VALUES " +
-                    "('"+book.getTitle()+"', "+book.getEdition()+", "+book.getYear()+", '"+book.getCategory()+"', '"+book.getSubCategory()+"', '"+author.getName()+"')");
+                    "('" + book.getTitle() + "', " + book.getEdition() + ", " + book.getYear() + ", '" + book.getCategory() + "', '" + book.getSubCategory() + "', '" + author.getName() + "')");
 
-            psAuthorTable = connection.prepareStatement("INSERT OR IGNORE INTO Author(name) VALUES ('"+author.getName()+"')");
+            psAuthorTable = connection.prepareStatement("INSERT OR IGNORE INTO Author(name) VALUES ('" + author.getName() + "')");
 
             psBookTable.execute();
             psAuthorTable.execute();
@@ -77,7 +77,7 @@ public class DatabaseHelper {
         ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book");
 
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
             }
         } catch (SQLException e) {
@@ -86,10 +86,10 @@ public class DatabaseHelper {
     }
 
     public void searchBookByTitle(String title) {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book WHERE title LIKE '%"+title+"%'");
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book WHERE title LIKE '%" + title + "%'");
 
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
             }
             System.out.println();
@@ -101,14 +101,26 @@ public class DatabaseHelper {
 
     public void deleteBook(String title, String author) {
 
-        executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
+        executeQuery("DELETE FROM Book WHERE title= '" + title + "' AND author= '" + author + "' ");
         try {
             connection.commit();
         } catch (SQLException e) {
             System.out.println("commit failed");
             e.printStackTrace();
         }
-        System.out.println("\nThe book "+title+ " by "+author+" was deleted");
+    }
+
+
+    public boolean bookExists(String title) {
+        ResultSet rs = getResultSet("SELECT  title  FROM Book WHERE title = '" + title + "' ");
+        try {
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  false;
     }
 
 }
