@@ -7,6 +7,8 @@ public class User {
         this.view = view;
     }
 
+    // Show Welcome Message
+    private
     // add books
 
     // serach books
