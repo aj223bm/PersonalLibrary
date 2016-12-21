@@ -1,4 +1,6 @@
 import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -16,8 +18,6 @@ public class User {
         author  = new Author();
 
         system();
-
-
     }
     private void  system(){
       while (true) {
@@ -27,14 +27,7 @@ public class User {
           }else{
               break;
           }
-
-
-
       }
-
-
-
-
     }
 
     private void addbook() {
@@ -43,7 +36,30 @@ public class User {
 
     }
 
-    // serach books
+    public void listAllBooks() {
+        ResultSet rs = db.getResultSet("SELECT title, author, edition, year, category FROM Book");
+
+        try {
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void searchBookByTitle(String title) {
+        ResultSet rs = db.getResultSet("SELECT title, author, edition, year, category FROM Book WHERE title LIKE '%"+title+"%'");
+
+        try {
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     // remove books
 
 

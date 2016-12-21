@@ -40,7 +40,10 @@ public class DatabaseHelper {
             psBookTable = connection.prepareStatement("INSERT OR IGNORE INTO Book(title, edition, year, category, subcategory, author) VALUES " +
                     "('"+title+"', "+edition+", "+year+", '"+category+"', '"+subcategory+"', '"+author+"')");
 
+            psAuthorTable = connection.prepareStatement("INSERT OR IGNORE INTO Author(name) VALUES ('"+author+"')");
+
             psBookTable.execute();
+            psAuthorTable.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
