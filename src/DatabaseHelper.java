@@ -78,12 +78,13 @@ public class DatabaseHelper {
 
         try {
             while(rs.next()) {
-                if(rs.getString(6) != "null") {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                if(rs.getString(6).contains("null")) {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
                 }
                 else {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-                }            }
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -98,12 +99,13 @@ public class DatabaseHelper {
 
         try {
             while(rs.next()) {
-                if(rs.getString(6) != "null") {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                if(rs.getString(6).contains("null")) {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
                 }
                 else {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-                }            }
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                }
+            }
             System.out.println();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -140,11 +142,11 @@ public class DatabaseHelper {
 
         try {
             while(rs.next()) {
-                if(rs.getString(6) != "null") {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                if(rs.getString(6).contains("null")) {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
                 }
                 else {
-                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
                 }
             }
             System.out.println();
@@ -152,6 +154,4 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
     }
-
-
 }
