@@ -110,5 +110,26 @@ public class DatabaseHelper {
         }
         System.out.println("\nThe book "+title+ " by "+author+" was deleted");
     }
+    public void deleteSpacificBook(String title, String author, int edition) {
+
+        ResultSet rs = getResultSet("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' And edition='"+edition+"' " );
+
+        System.out.println("the book "+title+ " was deleted");
+
+    }
+
+    public void getAllBooksHaveEditions() {
+        ResultSet rs = getResultSet("SELECT * FROM Book WHERE edition>1");
+
+        try {
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
