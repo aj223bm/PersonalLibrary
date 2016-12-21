@@ -27,16 +27,29 @@ public class User {
               addbook();
           }
           else if(choice == 2) {
-              db.listAllBooks();
-          }
-          else if(choice == 3) {
               deleteBook();
           }
-          else if(choice == 4) {
-              searchBookByTitle();
-
+          else if(choice == 3) {
+              SearchOptions();
           }
       }
+    }
+
+    private void SearchOptions() {
+        while(true) {
+            view.showSearchMenu();
+            int choice = view.getInput();
+            if(choice == 1) {
+                searchBookByTitle();
+            }
+            else if(choice == 2) {
+                db.listAllBooks();
+            }
+            else {
+                break;
+            }
+        }
+
     }
 
     private void searchBookByTitle() {

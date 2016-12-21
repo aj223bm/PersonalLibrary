@@ -18,11 +18,17 @@ public class View {
 
     public void showMenu() {
 
-        System.out.println("\n1. Add new book ");
-        System.out.println("2. List all books");
-        System.out.println("3. Remove book");
-        System.out.println("4. Search book by title");
+        System.out.println("\n1. Add book ");
+        System.out.println("2. Delete book");
+        System.out.println("3. Search options");
 
+    }
+
+    public void showSearchMenu() {
+        System.out.println("\n1. Search book by title ");
+        System.out.println("2. List all books");
+        System.out.println("");
+        System.out.println("\n9. Back");
     }
 
     public int getInput() {
@@ -67,6 +73,8 @@ public class View {
         tempBook.setAuthor(scanner.nextLine());
         return tempBook;
     }
+
+
 }
 
 
