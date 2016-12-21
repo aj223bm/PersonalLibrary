@@ -19,15 +19,13 @@ public class DatabaseHelper {
             statement = connection.createStatement();
             connection.setAutoCommit(false);    // Manual commit
 
-            createTables();
-
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
     }
 
-    private void createTables() {
+    public void createTables() {
         try {
             statement.execute("CREATE TABLE Author(name TEXT PRIMARY KEY)");
             statement.execute("CREATE TABLE Book(title TEXT, edition INTEGER, year INTEGER, category TEXT, subcategory TEXT, author TEXT, FOREIGN KEY(author) REFERENCES Author(name))");
@@ -35,6 +33,28 @@ public class DatabaseHelper {
             System.out.println("Failed while creating the tables");
             e.printStackTrace();
         }
+    }
+
+    public void addBook(String title, int edition, int year, String category, String subcategory, String author) {
+        try {
+            psBookTable = connection.prepareStatement("INSERT OR IGNORE INTO Book(title, edition, year, category, subcategory, author) VALUES " +
+                    "('"+title+"', "+edition+", "+year+", '"+category+"', '"+subcategory+"', '"+author+"')");
+
+            psBookTable.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ResultSet getResultSet(String SQLStatement) {
+
+        ResultSet rs = null;
+        try {
+            rs = statement.executeQuery(SQLStatement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 
 
