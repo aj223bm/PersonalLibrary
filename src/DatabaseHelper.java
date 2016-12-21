@@ -119,7 +119,7 @@ public class DatabaseHelper {
     }
 
     public void getAllBooksHaveEditions() {
-        ResultSet rs = getResultSet("SELECT * FROM Book WHERE edition>1");
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book WHERE edition > '1'");
 
         try {
             while(rs.next()) {

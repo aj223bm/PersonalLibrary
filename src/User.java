@@ -45,6 +45,9 @@ public class User {
             else if(choice == 2) {
                 db.listAllBooks();
             }
+            else if(choice == 3) {
+                db.getAllBooksHaveEditions();
+            }
             else {
                 break;
             }

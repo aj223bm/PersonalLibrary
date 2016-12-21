@@ -27,7 +27,7 @@ public class View {
     public void showSearchMenu() {
         System.out.println("\n1. Search book by title ");
         System.out.println("2. List all books");
-        System.out.println("");
+        System.out.println("3. List all books with edition > 1");
         System.out.println("\n9. Back");
     }
 
