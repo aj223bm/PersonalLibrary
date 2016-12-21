@@ -48,11 +48,20 @@ public class User {
             else if(choice == 3) {
                 db.getAllBooksHaveEditions();
             }
+            else if(choice == 4) {
+                searchBookByAuthor();
+            }
             else {
                 break;
             }
         }
 
+    }
+
+    private void searchBookByAuthor() {
+        System.out.print("\nSearch: ");
+        String author = view.getString();
+        db.searchBooksByAuthor(author);
     }
 
     private void searchBookByTitle() {

@@ -154,4 +154,22 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
     }
+
+    public void searchBooksByAuthor(String author) {
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE author LIKE '%"+author+"%'");
+
+        try {
+            while(rs.next()) {
+                if(rs.getString(6).contains("null")) {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+                }
+                else {
+                    System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5) + "/" + rs.getString(6));
+                }
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
