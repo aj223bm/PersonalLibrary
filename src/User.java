@@ -63,4 +63,14 @@ public class User {
     // remove books
 
 
+    public void deleteBook(String title, String author) {
+
+
+            ResultSet rs = db.getResultSet("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
+
+            System.out.println("the book "+title+ " was deleted");
+
+    }
+
+
 }
