@@ -18,15 +18,21 @@ public class View {
 
     public void showMenu() {
 
-        System.out.println("1. Add new book ");
+        System.out.println("\n1. Add new book ");
         System.out.println("2. List all books");
         System.out.println("3. Remove book");
+        System.out.println("4. Search book by title");
 
     }
 
     public int getInput() {
         scanner = new Scanner(System.in);
         return scanner.nextInt();
+    }
+
+    public String getString() {
+        scanner = new Scanner(System.in);
+        return scanner.nextLine();
     }
 
 
@@ -51,7 +57,17 @@ public class View {
 
     }
 
+    public Book getTitleAndAuthor() {
+
+        Book tempBook = new Book();
+        scanner = new Scanner(System.in);
+        System.out.print("Title of the Book: ");
+        tempBook.setTitle(scanner.nextLine());
+        System.out.print("Name of the Author: ");
+        tempBook.setAuthor(scanner.nextLine());
+        return tempBook;
     }
+}
 
 
 

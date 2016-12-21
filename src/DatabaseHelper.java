@@ -102,8 +102,13 @@ public class DatabaseHelper {
     public void deleteBook(String title, String author) {
 
         executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
-        System.out.println("The book "+title+ " by "+author+" was deleted");
-
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            System.out.println("commit failed");
+            e.printStackTrace();
+        }
+        System.out.println("\nThe book "+title+ " by "+author+" was deleted");
     }
 
 }

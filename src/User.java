@@ -8,12 +8,11 @@ import java.util.ArrayList;
  */
 public class User {
     View view ;
-    DatabaseHelper db;
+    DatabaseHelper db = new DatabaseHelper();;
     Book  book;
     Author author;
     ArrayList<Book> books = new ArrayList<Book>();
     public User(View view) {
-        db = new DatabaseHelper();
         this.view = view;
         book = new Book();
         author  = new Author();
@@ -31,9 +30,24 @@ public class User {
               db.listAllBooks();
           }
           else if(choice == 3) {
-              db.deleteBook("Harry Potter", "J.K Rowling");
+              deleteBook();
+          }
+          else if(choice == 4) {
+              searchBookByTitle();
+
           }
       }
+    }
+
+    private void searchBookByTitle() {
+        System.out.print("\nSearch: ");
+        String title = view.getString();
+        db.searchBookByTitle(title);
+    }
+
+    private void deleteBook() {
+        Book tempBook = view.getTitleAndAuthor();
+        db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
     }
 
     private void addbook() {
