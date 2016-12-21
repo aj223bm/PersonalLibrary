@@ -19,32 +19,37 @@ public class DatabaseHelper {
             statement = connection.createStatement();
             connection.setAutoCommit(false);    // Manual commit
 
+            createTables();
+
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
     }
 
-    public void createTables() {
+    private void createTables() {
         try {
-            statement.execute("CREATE TABLE Author(name TEXT PRIMARY KEY)");
-            statement.execute("CREATE TABLE Book(title TEXT, edition INTEGER, year INTEGER, category TEXT, subcategory TEXT, author TEXT, FOREIGN KEY(author) REFERENCES Author(name))");
+            statement.execute("CREATE TABLE IF NOT EXISTS Author(name TEXT PRIMARY KEY)");
+            statement.execute("CREATE TABLE IF NOT EXISTS Book(title TEXT, edition INTEGER, year INTEGER, category TEXT, subcategory TEXT, author TEXT, FOREIGN KEY(author) REFERENCES Author(name))");
         } catch (SQLException e) {
             System.out.println("Failed while creating the tables");
             e.printStackTrace();
         }
     }
 
-    public void addBook(String title, int edition, int year, String category, String subcategory, String author) {
+    public void addBook(Book book, Author author) {
         try {
             psBookTable = connection.prepareStatement("INSERT OR IGNORE INTO Book(title, edition, year, category, subcategory, author) VALUES " +
-                    "('"+title+"', "+edition+", "+year+", '"+category+"', '"+subcategory+"', '"+author+"')");
+                    "('"+book.getTitle()+"', "+book.getEdition()+", "+book.getYear()+", '"+book.getCategory()+"', '"+book.getSubCategory()+"', '"+author.getName()+"')");
 
-            psAuthorTable = connection.prepareStatement("INSERT OR IGNORE INTO Author(name) VALUES ('"+author+"')");
+            psAuthorTable = connection.prepareStatement("INSERT OR IGNORE INTO Author(name) VALUES ('"+author.getName()+"')");
 
             psBookTable.execute();
             psAuthorTable.execute();
+
+            connection.commit();
         } catch (SQLException e) {
+            System.out.println("Error adding book");
             e.printStackTrace();
         }
     }
@@ -60,6 +65,38 @@ public class DatabaseHelper {
         return rs;
     }
 
+    public void listAllBooks() {
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book");
 
+        try {
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void searchBookByTitle(String title) {
+        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book WHERE title LIKE '%"+title+"%'");
+
+        try {
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void deleteBook(String title, String author) {
+
+        ResultSet rs = getResultSet("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
+
+        System.out.println("the book "+title+ " was deleted");
+
+    }
 
 }

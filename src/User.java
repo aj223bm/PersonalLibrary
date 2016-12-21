@@ -13,6 +13,7 @@ public class User {
     Author author;
     ArrayList<Book> books = new ArrayList<Book>();
     public User(View view) {
+        db = new DatabaseHelper();
         this.view = view;
         book = new Book();
         author  = new Author();
@@ -22,55 +23,19 @@ public class User {
     private void  system(){
       while (true) {
           view.showMenu();
-          if(view.getInput() == 1){
+          int choice = view.getInput();
+          if(choice == 1){
               addbook();
-          }else{
-              break;
+          }
+          else if(choice == 2) {
+              db.listAllBooks();
           }
       }
     }
 
     private void addbook() {
         view.getBookInformation(book,author);
-        System.out.println(book.getAuthor());
-
+        db.addBook(book, author);
     }
-
-    public void listAllBooks() {
-        ResultSet rs = db.getResultSet("SELECT title, author, edition, year, category FROM Book");
-
-        try {
-            while(rs.next()) {
-                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void searchBookByTitle(String title) {
-        ResultSet rs = db.getResultSet("SELECT title, author, edition, year, category FROM Book WHERE title LIKE '%"+title+"%'");
-
-        try {
-            while(rs.next()) {
-                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    // remove books
-
-
-    public void deleteBook(String title, String author) {
-
-
-            ResultSet rs = db.getResultSet("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
-
-            System.out.println("the book "+title+ " was deleted");
-
-    }
-
 
 }

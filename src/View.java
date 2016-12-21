@@ -18,7 +18,8 @@ public class View {
 
     public void showMenu() {
 
-        System.out.println("1.  Add new book ");
+        System.out.println("1. Add new book ");
+        System.out.println("2. List all books");
 
     }
 
