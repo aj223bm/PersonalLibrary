@@ -33,6 +33,9 @@ public class View {
         System.out.println("3. List all books with edition > 1");
         System.out.println("4. Search books by author");
         System.out.println("5. Search books by category");
+        System.out.println("6. Number of books published");
+        System.out.println("7. List all authors");
+
         System.out.println("\n9. Back");
     }
 
@@ -124,6 +127,22 @@ public class View {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void print(ResultSet rs) {
+        try {
+            while(rs.next()) {
+                System.out.println(rs.getString(1));
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getInt() {
+        scanner = new Scanner(System.in);
+        return scanner.nextInt();
     }
 }
 

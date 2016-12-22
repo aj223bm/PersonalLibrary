@@ -51,10 +51,26 @@ public class User {
             else if(choice == 5) {
                 getAllBooksByCategory();
             }
+            else if(choice == 6) {
+                getHowManyBooksPublishedInYear();
+            }
+            else if(choice == 7) {
+                getAllAuthors();
+            }
             else {
                 break;
             }
         }
+    }
+
+    private void getHowManyBooksPublishedInYear() {
+        System.out.print("Enter year: ");
+        int year = view.getInt();
+        view.print(db.getHowManyBooksPublishedInYear(year));
+    }
+
+    private void getAllAuthors() {
+        view.print(db.getAllAuthors());
     }
 
     private void getAllBooksByCategory() {
