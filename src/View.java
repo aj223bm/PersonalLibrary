@@ -27,10 +27,11 @@ public class View {
     }
 
     public void showSearchMenu() {
-        System.out.println("\n1. Search book by title");
+        System.out.println("\n1. Search books by title");
         System.out.println("2. List all books");
         System.out.println("3. List all books with edition > 1");
-        System.out.println("4. Search book by author");
+        System.out.println("4. Search books by author");
+        System.out.println("5. Search books by category");
         System.out.println("\n9. Back");
     }
 
@@ -99,6 +100,22 @@ public class View {
                 }
                 else {
                     System.out.println("Title: " + rs.getString(1) + "\tAuthor: " + rs.getString(2) + "\tEdition: " + rs.getString(3) + "\tYear: " + rs.getString(4) + "\tCategory: " + rs.getString(5) + "/" + rs.getString(6));
+                }
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printBooksShort(ResultSet rs) {
+        try {
+            while(rs.next()) {
+                if(rs.getString(4).contains("null")) {
+                    System.out.println("Title: " + rs.getString(1) + "\tAuthor: " + rs.getString(2) + "\tCategory: " + rs.getString(3));
+                }
+                else {
+                    System.out.println("Title: " + rs.getString(1) + "\tAuthor: " + rs.getString(2) + "\tCategory: " + rs.getString(3) + "/" + rs.getString(4));
                 }
             }
             System.out.println();

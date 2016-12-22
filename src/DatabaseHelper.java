@@ -113,4 +113,8 @@ public class DatabaseHelper {
     public ResultSet getAllBooksWithEditionLargerThanOne() {
         return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE edition > '1'");
     }
+
+    public ResultSet getAllBooksByCategory(String category) {
+        return getResultSet("SELECT title, author, category, subcategory FROM Book WHERE category LIKE '%"+category+"%' OR subcategory LIKE '%"+category+"%' ORDER BY category");
+    }
 }

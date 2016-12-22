@@ -48,10 +48,19 @@ public class User {
             else if(choice == 4) {
                 getBooksByAuthor();
             }
+            else if(choice == 5) {
+                getAllBooksByCategory();
+            }
             else {
                 break;
             }
         }
+    }
+
+    private void getAllBooksByCategory() {
+        System.out.print("\nSearch category: ");
+        String category = view.getString();
+        view.printBooksShort(db.getAllBooksByCategory(category));
     }
 
     private void getAllBooks() {
