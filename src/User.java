@@ -57,11 +57,13 @@ public class User {
             else if(choice == 7) {
                 getAllAuthors();
             }
+
             else {
                 break;
             }
         }
     }
+
 
     private void getHowManyBooksPublishedInYear() {
         System.out.print("Enter year: ");
@@ -101,17 +103,20 @@ public class User {
 
     private void deleteBook() {
         Book tempBook = view.getTitleAuthorEdition();
-        if(tempBook.getEdition() == -1) {
-            db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
-        }
-        else {
-            db.deleteSpecificBook(tempBook.getTitle(), tempBook.getAuthor(), tempBook.getEdition());
+        if (db.bookExists(tempBook.getTitle(), tempBook.getAuthor())) {
+            if (tempBook.getEdition() == -1) {
+                db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
+            } else {
+                db.deleteSpecificBook(tempBook.getTitle(), tempBook.getAuthor(), tempBook.getEdition());
+            }
+        }else{
+            System.out.println("The book  dose not exist");
         }
     }
-
     private void addBook() {
         view.getBookInformation(book,author);
         db.addBook(book, author);
     }
+
 
 }

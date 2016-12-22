@@ -125,4 +125,16 @@ public class DatabaseHelper {
     public ResultSet getAllAuthors() {
         return getResultSet("SELECT name FROM Author");
     }
+
+    public boolean bookExists(String title, String author) {
+        ResultSet rs = getResultSet("SELECT  title  FROM Book WHERE title = '" + title + "' AND  author = '"+author+"'");
+        try {
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  false;
+    }
 }
