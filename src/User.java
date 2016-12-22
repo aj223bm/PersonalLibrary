@@ -1,17 +1,14 @@
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
  * Created  bty mohamed  on 2016-12-21.
  */
 public class User {
-    View view ;
-    DatabaseHelper db = new DatabaseHelper();;
-    Book  book;
-    Author author;
-    ArrayList<Book> books = new ArrayList<Book>();
+    private View view ;
+    private DatabaseHelper db = new DatabaseHelper();;
+    private Book  book;
+    private Author author;
+
     public User(View view) {
         this.view = view;
         book = new Book();
@@ -24,42 +21,79 @@ public class User {
           view.showMenu();
           int choice = view.getInput();
           if(choice == 1){
-              addbook();
+              addBook();
           }
           else if(choice == 2) {
-              db.listAllBooks();
-          }
-          else if(choice == 3) {
               deleteBook();
           }
-          else if(choice == 4) {
-              searchBookByTitle();
-
+          else if(choice == 3) {
+              searchOptions();
           }
       }
     }
 
-    private void searchBookByTitle() {
+    private void searchOptions() {
+        while(true) {
+            view.showSearchMenu();
+            int choice = view.getInput();
+            if(choice == 1) {
+                getBooksByTitle();
+            }
+            else if(choice == 2) {
+                getAllBooks();
+            }
+            else if(choice == 3) {
+                getAllBooksWithEditionLargerThanOne();
+            }
+            else if(choice == 4) {
+                getBooksByAuthor();
+            }
+            else if(choice == 5) {
+                getAllBooksByCategory();
+            }
+            else {
+                break;
+            }
+        }
+    }
+
+    private void getAllBooksByCategory() {
+        System.out.print("\nSearch category: ");
+        String category = view.getString();
+        view.printBooksShort(db.getAllBooksByCategory(category));
+    }
+
+    private void getAllBooks() {
+        view.printBooks(db.getAllBooks());
+    }
+
+    private void getAllBooksWithEditionLargerThanOne() {
+        view.printBooks(db.getAllBooksWithEditionLargerThanOne());
+    }
+
+    private void getBooksByAuthor() {
+        System.out.print("\nSearch: ");
+        String author = view.getString();
+        view.printBooks(db.getBooksByAuthor(author));
+    }
+
+    private void getBooksByTitle() {
         System.out.print("\nSearch: ");
         String title = view.getString();
-        db.searchBookByTitle(title);
+        view.printBooks(db.getBooksByTitle(title));
     }
 
     private void deleteBook() {
-
-        Book tempBook = view.getTitleAndAuthor();
-        if(db.bookExists(tempBook.getTitle())){
-        db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
-            System.out.println("The Book " + tempBook+  " is deleted ");
-        }else{
-            System.out.println("The book you choose  dose not exsit in your library ");
-            return;
+        Book tempBook = view.getTitleAuthorEdition();
+        if(tempBook.getEdition() == -1) {
+            db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
         }
-
-
+        else {
+            db.deleteSpecificBook(tempBook.getTitle(), tempBook.getAuthor(), tempBook.getEdition());
+        }
     }
 
-    private void addbook() {
+    private void addBook() {
         view.getBookInformation(book,author);
         db.addBook(book, author);
     }

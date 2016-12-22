@@ -40,9 +40,9 @@ public class DatabaseHelper {
     public void addBook(Book book, Author author) {
         try {
             psBookTable = connection.prepareStatement("INSERT OR IGNORE INTO Book(title, edition, year, category, subcategory, author) VALUES " +
-                    "('" + book.getTitle() + "', " + book.getEdition() + ", " + book.getYear() + ", '" + book.getCategory() + "', '" + book.getSubCategory() + "', '" + author.getName() + "')");
+                    "('"+book.getTitle()+"', "+book.getEdition()+", "+book.getYear()+", '"+book.getCategory()+"', '"+book.getSubCategory()+"', '"+author.getName()+"')");
 
-            psAuthorTable = connection.prepareStatement("INSERT OR IGNORE INTO Author(name) VALUES ('" + author.getName() + "')");
+            psAuthorTable = connection.prepareStatement("INSERT OR IGNORE INTO Author(name) VALUES ('"+author.getName()+"')");
 
             psBookTable.execute();
             psAuthorTable.execute();
@@ -73,54 +73,48 @@ public class DatabaseHelper {
         }
     }
 
-    public void listAllBooks() {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book");
-
-        try {
-            while (rs.next()) {
-                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void searchBookByTitle(String title) {
-        ResultSet rs = getResultSet("SELECT title, author, edition, year, category FROM Book WHERE title LIKE '%" + title + "%'");
-
-        try {
-            while (rs.next()) {
-                System.out.println(rs.getString(1) + " by " + rs.getString(2) + ", edition " + rs.getString(3) + ", year " + rs.getString(4) + ", category " + rs.getString(5));
-            }
-            System.out.println();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void deleteBook(String title, String author) {
 
-        executeQuery("DELETE FROM Book WHERE title= '" + title + "' AND author= '" + author + "' ");
+        executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
         try {
             connection.commit();
         } catch (SQLException e) {
             System.out.println("commit failed");
             e.printStackTrace();
         }
+        System.out.println("\nThe book "+title+ " by "+author+" was deleted");
     }
+    public void deleteSpecificBook(String title, String author, int edition) {
 
-
-    public boolean bookExists(String title) {
-        ResultSet rs = getResultSet("SELECT  title  FROM Book WHERE title = '" + title + "' ");
+        executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' And edition='"+edition+"' " );
         try {
-            if(rs.next()){
-                return true;
-            }
+            connection.commit();
         } catch (SQLException e) {
+            System.out.println("commit failed");
             e.printStackTrace();
         }
-        return  false;
+        System.out.println("All editions of the book "+title+ " were deleted");
+
     }
 
+    public ResultSet getAllBooks() {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book");
+    }
+
+    public ResultSet getBooksByTitle(String title) {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE title LIKE '%"+title+"%'");
+    }
+
+    public ResultSet getBooksByAuthor(String author) {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE author LIKE '%"+author+"%'");
+    }
+
+    public ResultSet getAllBooksWithEditionLargerThanOne() {
+        return getResultSet("SELECT title, author, edition, year, category, subcategory FROM Book WHERE edition > '1'");
+    }
+
+    public ResultSet getAllBooksByCategory(String category) {
+        return getResultSet("SELECT title, author, category, subcategory FROM Book WHERE category LIKE '%"+category+"%' OR subcategory LIKE '%"+category+"%' ORDER BY category");
+    }
 }
