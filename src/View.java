@@ -1,21 +1,13 @@
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-/**
- * Created by mohamed on 2016-12-21.
- */
 public class View {
 
-    Scanner scanner;
+    private Scanner scanner;
 
-    //  view welcome message
-    // view menus
     public void showWelcomeMessage() {
-
-        System.out.println(" Welcome to Your Personal Library");
-
+        System.out.println(" Welcome to Your Personal Library!");
     }
 
     public void showMenu() {
@@ -23,7 +15,6 @@ public class View {
         System.out.println("\n1. Add book ");
         System.out.println("2. Delete book");
         System.out.println("3. Search options");
-
 
     }
 
@@ -41,8 +32,7 @@ public class View {
 
     public int getInput() {
         scanner = new Scanner(System.in);
-        int choice = scanner.nextInt();
-        return choice;
+        return scanner.nextInt();
     }
 
     public String getString() {
@@ -51,6 +41,11 @@ public class View {
     }
 
 
+    /**
+     * Method that asks the user to input information about Book and Author.
+     * @param book Book to add information to
+     * @param author Author to add information to.
+     */
     public void getBookInformation(Book book, Author author) {
         scanner = new Scanner(System.in);
         System.out.print("Title of the Book: ");
@@ -74,6 +69,20 @@ public class View {
 
     }
 
+    /**
+     * Method to add Year attribute to Author.
+     * @param author Author to add year attribute to.
+     */
+    public void addYearToAuthor(Author author) {
+        scanner = new Scanner(System.in);
+        System.out.print("This is a new author, please enter year the author was born: ");
+        author.setYear(scanner.nextInt());
+    }
+
+    /**
+     * Method that creates a temporary Book of inputs by the user. This only gets Title of Book and Name of Author.
+     * @return Book temporary book created by input data.
+     */
     public Book getTitleAndAuthor() {
 
         Book tempBook = new Book();
@@ -85,6 +94,10 @@ public class View {
         return tempBook;
     }
 
+    /**
+     * Method that creates a temporary Book of inputs by the user. This gets Title and edition of Book and Name of Author.
+     * @return Book temporary book created by input data.
+     */
     public Book getTitleAuthorEdition() {
         Book tempBook = new Book();
         scanner = new Scanner(System.in);
@@ -97,6 +110,10 @@ public class View {
         return tempBook;
     }
 
+    /**
+     * Method to print out Books with all their attributes of a given ResultSet. Prints out Title, Author, Edition, Year and Category (/subcategory).
+     * @param rs ResultSet containing Books to print out.
+     */
     public void printBooks(ResultSet rs) {
         try {
             while(rs.next()) {
@@ -113,6 +130,10 @@ public class View {
         }
     }
 
+    /**
+     * Method to print out Book(s) with all their attributes of a given ResultSet. Prints out Title, Author and Category (/subcategory).
+     * @param rs ResultSet containing Book(s) to print out.
+     */
     public void printBooksShort(ResultSet rs) {
         try {
             while(rs.next()) {
@@ -129,6 +150,25 @@ public class View {
         }
     }
 
+    /**
+     * Prints out a ResultSet of Author(s). Prints Name and Year born.
+     * @param rs ResultSet containing Author(s) to print out.
+     */
+    public void printAuthors(ResultSet rs) {
+        try {
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + ", born " + rs.getString(2));
+            }
+            System.out.println();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Prints out the first column String of given ResultSet
+     * @param rs ResultSet to print from
+     */
     public void print(ResultSet rs) {
         try {
             while(rs.next()) {
@@ -144,6 +184,8 @@ public class View {
         scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
+
+
 }
 
 

@@ -1,8 +1,7 @@
-/**
- * Created by adamjohansson on 2016-12-20.
- */
+
 public class Author {
-    private  String name;
+    private String name;
+    private int year;
 
     public String getName() {
         return name;
@@ -10,5 +9,13 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

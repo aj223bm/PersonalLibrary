@@ -1,7 +1,6 @@
-import java.util.ArrayList;
 
 /**
- * Created  bty mohamed  on 2016-12-21.
+ * Operational Class User
  */
 public class User {
     private View view ;
@@ -16,7 +15,12 @@ public class User {
 
         system();
     }
+
+    /**
+     * Method to run menu in a while-loop. Calls View to get user inputs and to get what methods to call from that input.
+     */
     private void  system(){
+        view.showWelcomeMessage();
       while (true) {
           view.showMenu();
           int choice = view.getInput();
@@ -32,6 +36,10 @@ public class User {
       }
     }
 
+    /**
+     * A sub-menu for when the user selects "search" in the main menu. This loops until user selects to go back.
+     *  Calls View to get user inputs and to get what methods to call from that input.
+     */
     private void searchOptions() {
         while(true) {
             view.showSearchMenu();
@@ -57,12 +65,16 @@ public class User {
             else if(choice == 7) {
                 getAllAuthors();
             }
-
             else {
                 break;
             }
         }
     }
+
+    /*
+    Following methods are query methods to read, insert or remove data to/from the database.
+    They call the View class to print out the result.
+     */
 
 
     private void getHowManyBooksPublishedInYear() {
@@ -72,7 +84,7 @@ public class User {
     }
 
     private void getAllAuthors() {
-        view.print(db.getAllAuthors());
+        view.printAuthors(db.getAllAuthors());
     }
 
     private void getAllBooksByCategory() {
@@ -101,20 +113,30 @@ public class User {
         view.printBooks(db.getBooksByTitle(title));
     }
 
+    /**
+     * Method to remove a Book from the database. The user will be asked to input Title, Author (and edition) of the Book to remove.
+     */
     private void deleteBook() {
-        Book tempBook = view.getTitleAuthorEdition();
-        if (db.bookExists(tempBook.getTitle(), tempBook.getAuthor())) {
+        Book tempBook = view.getTitleAuthorEdition();   // Creates a temporary Book of input Title, Author (and edition)
+        if (db.bookExists(tempBook.getTitle(), tempBook.getAuthor())) { // Checks if the Book exists in the database
             if (tempBook.getEdition() == -1) {
                 db.deleteBook(tempBook.getTitle(), tempBook.getAuthor());
             } else {
                 db.deleteSpecificBook(tempBook.getTitle(), tempBook.getAuthor(), tempBook.getEdition());
             }
         }else{
-            System.out.println("The book  dose not exist");
+            System.out.println("The book does not exist");
         }
     }
+
+    /**
+     * Method to add a Book to the database.
+     */
     private void addBook() {
         view.getBookInformation(book,author);
+        if(!db.authorExists(author.getName())) {
+            view.addYearToAuthor(author);
+        }
         db.addBook(book, author);
     }
 
