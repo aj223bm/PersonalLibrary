@@ -77,25 +77,31 @@ public class DatabaseHelper {
     public void deleteBook(String title, String author) {
 
         executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' " );
-        try {
-            connection.commit();
-        } catch (SQLException e) {
-            System.out.println("commit failed");
-            e.printStackTrace();
-        }
+        connectionCommit();
+        deleteAuthor(author);
         System.out.println("\nThe book "+title+ " by "+author+" was deleted");
     }
     public void deleteSpecificBook(String title, String author, int edition) {
 
         executeQuery("DELETE FROM Book WHERE title= '"+title+"' AND author= '"+author+"' And edition='"+edition+"' " );
+        connectionCommit();
+        deleteAuthor(author);
+        System.out.println("All editions of the book "+title+ " were deleted");
+
+    }
+
+    private void deleteAuthor(String author) {
+        executeQuery("DELETE FROM Author WHERE NOT EXISTS (SELECT author FROM Book WHERE author = '"+author+"')");
+        connectionCommit();
+    }
+
+    private void connectionCommit() {
         try {
             connection.commit();
         } catch (SQLException e) {
             System.out.println("commit failed");
             e.printStackTrace();
         }
-        System.out.println("All editions of the book "+title+ " were deleted");
-
     }
 
     public ResultSet getAllBooks() {
