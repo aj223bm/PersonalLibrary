@@ -91,7 +91,14 @@ public class DatabaseHelper {
     }
 
     private void deleteAuthor(String author) {
-        executeQuery("DELETE FROM Author WHERE NOT EXISTS (SELECT author FROM Book WHERE author = '"+author+"')");
+        ResultSet rs = getResultSet("SELECT count(title) FROM Book WHERE author = '"+author+"'");
+        try {
+            if(rs.getInt(1) == 0) {
+                executeQuery("DELETE FROM Author WHERE name= '"+author+"'");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         connectionCommit();
     }
 
