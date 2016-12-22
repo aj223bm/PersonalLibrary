@@ -117,4 +117,12 @@ public class DatabaseHelper {
     public ResultSet getAllBooksByCategory(String category) {
         return getResultSet("SELECT title, author, category, subcategory FROM Book WHERE category LIKE '%"+category+"%' OR subcategory LIKE '%"+category+"%' ORDER BY category");
     }
+
+    public ResultSet getHowManyBooksPublishedInYear(int year) {
+        return getResultSet("SELECT count(title) FROM Book WHERE year = '"+year+"'");
+    }
+
+    public ResultSet getAllAuthors() {
+        return getResultSet("SELECT name FROM Author");
+    }
 }
